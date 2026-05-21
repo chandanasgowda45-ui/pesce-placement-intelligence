@@ -15,7 +15,7 @@ import InnovXPage from "./pages/InnovXPage";
 import ExplorePage from "./pages/ExplorePage";
 import CompanyDetailPage from "./pages/CompanyDetailPage";
 import NotFound from "./pages/NotFound";
-
+// testing automatic deployment
 const queryClient = new QueryClient();
 
 const App = () => (
