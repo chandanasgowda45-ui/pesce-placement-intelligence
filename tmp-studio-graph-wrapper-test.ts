@@ -1,0 +1,1 @@
+export const graph = { ok: true };

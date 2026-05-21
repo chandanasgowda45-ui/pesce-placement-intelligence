@@ -1,0 +1,313 @@
+field,input,expected,test_id,description
+Company Name,"Microsoft Corporation, AT&T Inc., L'Oréal S.A.",pass,TC-1.1-01,Valid Standard Input: Verify the field accepts well-formatted legal names including allowed special characters.
+Short Name,"AWS, J&J, OpenAI",pass,TC-1.1-02,Valid Standard Input: Verify abbreviated brand names are accepted within length constraints.
+CEO Name,"Satya Nadella, Jean-Pascal Tricoire",pass,TC-1.1-03,Valid Standard Input: Ensure executive names accept standard alphabetic characters and hyphens.
+Primary Contact Person's Name,Nandan M. Naik,pass,TC-1.1-04,Valid Standard Input: Validate capture of point-of-contact name for CRM integration.
+GLOBAL RECORD,Revenue: null,fail,TC-14.4-01,Default Value Handling: Ensure non-nullable fields do not have "0" or "False" defaults.
+GLOBAL RECORD,Remote Policy: null,pass,TC-14.4-01,Optional fields use "Unknown" or null.
+Company Name,NULL,fail,TC-1.2-001,Invalid/Empty Input: Rejection of null or whitespace names.
+Company Name,"",fail,TC-1.2-001,Invalid/Empty Input: Rejection of null or whitespace names.
+Company Name," ",fail,TC-1.2-001,Invalid/Empty Input: Rejection of null or whitespace names.
+Category,"",fail,TC-1.2-004,Invalid/Empty Input: Ensure classification cannot be bypassed with empty strings.
+Year of Incorporation,NULL,fail,TC-1.2-005,Invalid/Empty Input: Validate that a numeric year is present.
+Overview of the Company,"Short text",fail,TC-1.2-006,Invalid/Empty Input: Check minimum length constraint against empty/short text. (Min 50)
+Website URL,"",fail,TC-1.2-032,Invalid/Empty Input: Ensure core tracking domain is not empty.
+CEO Name," ",fail,TC-1.2-044,Invalid/Empty Input: Verify top executive name presence.
+Sales Motion,NULL,fail,TC-1.2-071,Invalid/Empty Input: Ensure GTM strategy is defined.
+Remote Work Policy,"",fail,TC-1.2-090,Invalid/Empty Input: Validate mandatory policy tag.
+Company Name,Café Résumé Pvt Ltd,pass,TC_SC_01,Validate special characters allowed in legal name. (UTF-8)
+Company Name,TechCorp 🚀,fail,TC_SC_02,Reject emojis in company name.
+Short Name,A&B Co.,pass,TC_SC_03,Validate valid special characters in short name.
+Short Name,ABC@123,fail,TC_SC_04,Reject unsupported symbols in short name.
+Logo,https://example.com/logo.png?ver=1,pass,TC_SC_05,Validate URL with query params.
+Logo,https://example.com/logo.txt,fail,TC_SC_06,Reject invalid file extension.
+Category,Startup@,fail,TC_SC_07,Reject special characters in enum.
+Year of Incorporation,202A,fail,TC_SC_08,Reject non-numeric special characters in year.
+Overview of the Company,AI-based platform for food delivery & logistics.,pass,TC_SC_09,Allow special characters in text.
+Employee Size,50+,fail,TC_SC_10,Reject invalid format with symbols (regex only allows number or range).
+Employee Turnover,15%%,fail,TC_SC_11,Reject invalid percentage format.
+Average Retention Tenure,2.5 Years,pass,TC_SC_12,Validate proper format.
+Company Headquarters,Bangalore@India,fail,TC_SC_13,Reject invalid symbols in location.
+Countries Operating In,India;USA,fail,TC_SC_14,Reject invalid separator (must be comma-separated).
+Website URL,https://example.com,pass,TC_SC_15,Validate HTTPS URL.
+Website URL,htp://example,fail,TC_SC_16,Reject malformed URL.
+LinkedIn Profile URL,https://linkedin.com/company/openai,pass,TC_SC_17,Validate correct format.
+Twitter (X) Handle,@user!name,fail,TC_SC_18,Reject invalid special characters.
+Company Contact Email,contact@company@com,fail,TC_SC_19,Reject invalid email format.
+Company Phone Number,#ERROR!,fail,TC_SC_20,Reject alphabets in phone.
+Company Name,App,fail,TC_MF_01,Reject incomplete company name (length < meaningful).
+Company Name,Microsft Pvt Ltd,fail,TC_MF_02,Reject misspelled company name (should match official registry).
+Short Name,Goog,fail,TC_MF_03,Reject meaningless abbreviation.
+Short Name,Google,pass,TC_MF_04,Accept valid short name.
+Logo,https://logo,fail,TC_MF_05,Reject incomplete URL.
+Logo,www.logo.png,fail,TC_MF_06,Reject missing protocol.
+Company Headquarters,India,fail,TC_MF_07,Reject incomplete location (must include city + country).
+Company Headquarters,"Bangalore, India",pass,TC_MF_08,Accept valid location.
+Countries Operating In,India USA,fail,TC_MF_09,Reject malformed list (missing comma).
+Countries Operating In,"India, USA",pass,TC_MF_10,Accept valid list.
+Employee Size,50-,fail,TC_MF_11,Reject invalid range format.
+Employee Size,100-50,fail,TC_MF_12,Reject illogical range (Min < Max rule violated).
+Employee Turnover,15,fail,TC_MF_13,Reject missing percentage symbol.
+Employee Turnover,150%,fail,TC_MF_14,Reject illogical value (>100%).
+Average Retention Tenure,2.5,fail,TC_MF_15,Reject incomplete unit.
+Website URL,https://.com,fail,TC_MF_16,Reject incomplete domain.
+Website URL,example.com,fail,TC_MF_17,Reject missing protocol.
+LinkedIn Profile URL,https://linkedin.com/user/openai,fail,TC_MF_18,Reject wrong path.
+Twitter (X) Handle,@,fail,TC_MF_19,Reject too short invalid handle.
+Company Contact Email,contactcompany.com,fail,TC_MF_20,Reject malformed email.
+Company Phone Number,91,fail,TC_MF_21,Reject incomplete number.
+CEO Name,John123,fail,TC_MF_22,Reject numeric name.
+Key Business Leaders,"{name: CEO}",fail,TC_MF_23,Reject invalid JSON structure.
+Revenue Mix,80-20,fail,TC_MF_24,Reject incorrect ratio format (must be 80/20).
+CAC:LTV Ratio,3::1,fail,TC_MF_25,Reject malformed ratio.
+Churn Rate,10,fail,TC_MF_26,Reject missing %.
+Net Promoter Score (NPS),150,fail,TC_MF_27,Reject out of range (>100).
+Company Name,Delta,fail,TC_1.5_01,Flag for disambiguation: Generic names that match multiple entities.
+Short Name,Mercury,fail,TC_1.5_02,Verify distinction: Generic abbreviation.
+Company Name,Apple Inc.,pass,TC-1.1-05,Valid Standard Input: Standard legal name.
+Company Name,"Tesla, Inc.",pass,TC-1.1-06,Valid Standard Input: Standard legal name with comma.
+Company Name,@#$%^&*(),fail,TC-1.3-01,Special Characters Input: Reject random symbols.
+Company Name,Company™ & Co.®,pass,TC-1.3-02,Special Characters Input: Accept legal symbols (TM, R).
+Company Name,Amazon,fail,TC-1.5-03,Ambiguous Input: Flag for disambiguation.
+Company Name,apple inc.,pass,TC-CS-001,Case Sensitivity: accepted and normalized to Standard Case.
+Short Name,MiCrOsOfT,pass,TC-CS-002,Case Sensitivity: mixed-case variations handled.
+Category,startup,pass,TC-CS-003,Case Sensitivity: enum matching is case-insensitive.
+Nature of Company,PRIVATE,pass,TC-CS-004,Case Sensitivity: uppercase enum inputs map correctly.
+Website URL,HTTPS://WWW.GOOGLE.COM,pass,TC-CS-005,Case Sensitivity: domain components treated as case-insensitive.
+Twitter (X) Handle,@TestUser,pass,TC-CS-006,Case Sensitivity: handle validation with mixed-case.
+CEO Name,SATYA NADELLA,pass,TC-CS-007,Case Sensitivity: uppercase name input accepted.
+Primary Contact Person's Email,SALES@Company.com,pass,TC-CS-008,Case Sensitivity: normalization for B2B flag validation.
+Regulatory & Compliance Status,gdpr,pass,TC-CS-009,Case Sensitivity: pattern matching for compliance tags.
+Profitability Status,PROFITABLE,pass,TC-CS-010,Case Sensitivity: categorical status matches valid enums regardless of case.
+ALL_FIELDS,"{""name"":""Microsoft"",""revenue"":1000000,""churn"":""5%""}",pass,TC_2_1_001,Data Completeness: All mandatory + optional fields populated.
+ALL_FIELDS,"{""revenue"":-100}",fail,TC_2_1_003,Business Rules: Revenue must be > 0.
+ALL_FIELDS,"{""churn"":""150%""}",fail,TC_2_1_003,Business Rules: Churn must be <= 100%.
+ALL_FIELDS,"{""cac"":100,""ltv"":300,""ratio"":""3:1""}",pass,TC_2_1_004,Cross-field Consistency: CAC:LTV aligned.
+ALL_FIELDS,"{""cac"":100,""ltv"":100,""ratio"":""3:1""}",fail,TC_2_1_004,Cross-field Consistency: Mismatched ratio.
+ALL_FIELDS,"{""source_api"":""valid"",""source_manual"":""valid""}",pass,TC_2_1_006,Multi-source Consistency: No conflicts.
+ALL_FIELDS,"{""name"":""Startup"",""revenue"":null}",pass,TC_2_2_001,Partial Profile: Mandatory fields only.
+ALL_FIELDS,"{""name"":""Private Co""}",pass,TC_2_2_002,Partial Profile: Optional fields absent.
+ALL_FIELDS,"{""name"":""Nullable Test"",""optional"":null}",pass,TC_2_2_003,Partial Profile: Null handling consistency.
+ALL_FIELDS,"{""name"":""Search Test""}",pass,TC_2_2_004,Partial Profile: Downstream compatibility (search/scoring).
+ALL_FIELDS,"{""revenue"":0}",fail,TC_2_2_005,Partial Profile: Missing revenue NOT defaulted to 0.
+ALL_FIELDS,"{""name"":""A""}",fail,TC_2_2_006,Partial Profile: Minimal viable dataset integrity (name too short).
+Company Name,"",fail,TC_DC_001,Empty Response: Non-existent company (Not Null failure).
+Short Name,NULL,pass,TC_DC_002,Empty Response: Nullable field allowed to be NULL.
+Logo,"",fail,TC_DC_003,Empty Response: Not Null URL failure.
+Category,"",fail,TC_DC_004,Empty Response: Not Null enum failure.
+Year of Incorporation,NULL,fail,TC_DC_005,Empty Response: Not Null numeric failure.
+Overview of the Company,"",fail,TC_DC_006,Empty Response: Not Null narrative failure (min length).
+Nature of Company,NULL,fail,TC_DC_007,Empty Response: Not Null failure.
+Countries Operating In,NULL,pass,TC_DC_008,Empty Response: Nullable list failure.
+Number of Offices (beyond HQ),"",pass,TC_DC_009,Empty Response: Nullable numeric accepted as NULL.
+Employee Size,"",fail,TC_DC_010,Empty Response: Not Null failure.
+Employee Turnover,NULL,pass,TC_DC_011,Empty Response: Nullable percentage accepted.
+Website URL,"",fail,TC_DC_012,Empty Response: Not Null failure.
+Website Rating,NULL,pass,TC_DC_013,Empty Response: Nullable numeric accepted.
+Social Media Followers – Combined,"",fail,TC_DC_014,Empty Response: Not Null failure.
+CEO Name,NULL,fail,TC_DC_015,Empty Response: Not Null failure.
+CEO LinkedIn URL,NULL,pass,TC_DC_016,Empty Response: Nullable profile accepted.
+Company Contact Email,"",pass,TC_DC_017,Empty Response: Nullable email accepted.
+Company Phone Number,NULL,pass,TC_DC_018,Empty Response: Nullable phone accepted.
+Profitability Status,"",fail,TC_DC_019,Empty Response: Not Null failure.
+Annual Revenues,NULL,pass,TC_DC_020,Empty Response: Nullable financial accepted.
+Customer Acquisition Cost (CAC),"",pass,TC_DC_021,Empty Response: Nullable numeric accepted.
+Net Promoter Score (NPS),NULL,pass,TC_DC_022,Empty Response: Nullable integer accepted.
+Sales Motion,"",fail,TC_DC_023,Empty Response: Not Null failure.
+Remote Work Policy,NULL,fail,TC_DC_024,Empty Response: Not Null failure.
+Company maturity,"",fail,TC_DC_025,Empty Response: Not Null failure.
+Company Name,Company@123🚀,fail,TC_FMT_001,Formatting: Reject invalid characters outside allowed UTF-8 pattern.
+Short Name,My#Company!,fail,TC_FMT_002,Formatting: Reject special characters not allowed in alias.
+Logo,https://example.com/logo.txt,fail,TC_FMT_003,Formatting: Reject non-image URL format.
+Category,StartupX,fail,TC_FMT_004,Formatting: Reject value outside enum.
+Year of Incorporation,20A5,fail,TC_FMT_005,Formatting: Reject invalid year format.
+Company Headquarters,Bangalore@India,fail,TC_FMT_006,Formatting: Reject invalid geo format with special chars.
+Countries Operating In,India;USA,fail,TC_FMT_007,Formatting: Reject improperly separated values (must be comma).
+Number of Offices (beyond HQ),ten,fail,TC_FMT_008,Formatting: Reject non-numeric input.
+Employee Size,50 to 100,fail,TC_FMT_009,Formatting: Reject invalid range format.
+Employee Turnover,15 percent,fail,TC_FMT_010,Formatting: Reject invalid percent format.
+Average Retention Tenure,2 yrs,fail,TC_FMT_011,Formatting: Reject invalid duration format (must match Years/Months).
+Focus Sectors / Industries,FinTech@AI,fail,TC_FMT_012,Formatting: Reject invalid characters in sectors.
+Key Competitors,Google; Amazon,fail,TC_FMT_013,Formatting: Reject improperly formatted list.
+Website URL,htp:/invalid-url,fail,TC_FMT_014,Formatting: Reject invalid URL protocol.
+Website Rating,10.55,fail,TC_FMT_015,Formatting: Reject out-of-format decimal (>10.0).
+Website Traffic Rank,-5,fail,TC_FMT_016,Formatting: Reject negative integer.
+Social Media Followers – Combined,10K,fail,TC_FMT_017,Formatting: Reject non-numeric value.
+Glassdoor Rating,5.5,fail,TC_FMT_018,Formatting: Reject out-of-range rating (>5.0).
+LinkedIn Profile URL,https://linkedin.com/company/user/abc,fail,TC_FMT_019,Formatting: Reject non-company LinkedIn URL.
+Twitter (X) Handle,@thisisaverylonghandle123,fail,TC_FMT_020,Formatting: Reject invalid handle length (>15).
+Company Contact Email,contact@company,fail,TC_FMT_021,Formatting: Reject invalid email format.
+Company Phone Number,123-456-789,fail,TC_FMT_022,Formatting: Reject invalid phone format (E.164).
+CEO Name,John123,fail,TC_FMT_023,Formatting: Reject numeric characters in name.
+CEO LinkedIn URL,https://linkedin.com/company/john,fail,TC_FMT_024,Formatting: Reject non-person LinkedIn URL (must match /in/).
+Profitability Status,Profiting,fail,TC_FMT_025,Formatting: Reject invalid enum value.
+Market Share (%),120,fail,TC_FMT_026,Formatting: Reject malformed percentage (must include % and <= 100).
+CAC:LTV Ratio,3/1,fail,TC_FMT_027,Formatting: Reject invalid ratio format (must match colon).
+Net Promoter Score (NPS),50.5,fail,TC_FMT_028,Formatting: Reject non-integer NPS format.
+Churn Rate,5,fail,TC_FMT_029,Formatting: Reject malformed percent (missing %).
+Company Valuation,100 million dollars,fail,TC_FMT_030,Formatting: Reject invalid currency format.
+ALL_FIELDS,"{""short_name"":""J-Tech"",""name"":null}",fail,TC-FD-002,Dependency: Short Name exists but Company Name is null.
+ALL_FIELDS,"{""ceo_linkedin"":""https://linkedin.com/in/jash"",""ceo_name"":null}",fail,TC-FD-045,Dependency: CEO LinkedIn exists but CEO Name is null.
+ALL_FIELDS,"{""profitability"":""Loss-making"",""annual_profits"":null}",fail,TC-FD-065,Dependency: Profitability Status exists but Annual Profits is null.
+ALL_FIELDS,"{""runway"":18.5,""capital_raised"":null}",fail,TC-FD-079,Dependency: Runway exists but Capital Raised is null.
+ALL_FIELDS,"{""som"":""$500M"",""sam"":null}",fail,TC-FD-110,Dependency: SOM exists but SAM is null.
+ALL_FIELDS,"{""maturity"":""Scale-up"",""incorporation_year"":null}",fail,TC-FD-146,Dependency: Maturity exists but incorporation metadata missing.
+ALL_FIELDS,"{""global_exposure"":""Yes"",""countries"":""India""}",fail,TC-FD-160,Dependency: Global exposure is Yes but only 1 country operating in.
+ALL_FIELDS,"{""crisis_behavior"":""Swift response"",""recent_news"":null}",fail,TC-FD-163,Dependency: Crisis behavior narrative but no linked news event.
+ALL_FIELDS,"{""name"":""Apple Inc."",""ceo"":""Tim Cook"",""revenue"":""$383.29B"",""source_sec"":true}",pass,TC-FACT-3.1-HOLISTIC,Factual: Holistic reconciliation against ground truth.
+ALL_FIELDS,"{""revenue"":""$50.3B"",""source_sec"":false}",fail,TC-FACT-3.1-SEC,Factual: Missing authoritative SEC source for public entity.
+CEO Name,Sundar Pichai (Former CEO),fail,TC_TA_001,Temporal: Reject outdated CEO information.
+CEO Name,Satya Nadella,pass,TC_TA_002,Temporal: Current executive accepted.
+Recent Funding Rounds,2010-05-01 - $5M,fail,TC_TA_003,Temporal: Outdated funding round.
+Recent Funding Rounds,2024-06-15 - $50M,pass,TC_TA_004,Temporal: Recent funding round accepted.
+Recent News,2018-01-01 - Acquired X,fail,TC_TA_005,Temporal: Outdated news event.
+Recent News,2025-02-10 - Launched AI,pass,TC_TA_006,Temporal: Recent news accepted.
+Year of Incorporation,2030,fail,TC_TA_007,Temporal: Reject future year.
+Year of Incorporation,2005,pass,TC_TA_008,Temporal: Realistic year accepted.
+Innovation Roadmap,2022 - Launch AI,fail,TC_TA_009,Temporal: Roadmap must contain future dates.
+Innovation Roadmap,2027 - Launch AI,pass,TC_TA_010,Temporal: Future roadmap accepted.
+Runway,-5,fail,TC_TA_013,Temporal: Reject negative runway.
+Number of Offices (beyond HQ),4.5,fail,TC-3.3-002,Precision: Reject non-integer office count.
+Website Rating,7.55,fail,TC-3.3-003,Precision: Reject extra decimal places in rating.
+Website Traffic Rank,250K,fail,TC-3.3-004,Precision: Reject suffixed strings for rank.
+Glassdoor Rating,4,fail,TC-3.3-006,Precision: Reject integer rating (must be 4.0).
+Annual Revenues,~$50B,fail,TC-3.3-009,Precision: Reject fuzzy approximations.
+Annual Profits,loss of 5M,fail,TC-3.3-010,Precision: Reject text-based loss expression.
+ALL_FIELDS,"{""ratio"":""80/25""}",fail,TC-3.3-011,Precision: Ratio parts must sum to 100%.
+Year-over-Year Growth Rate,25.123%,fail,TC-3.3-013,Precision: Max 2 decimal places in growth.
+Market Share (%),101%,fail,TC-3.3-014,Precision: Out of range (>100%).
+ALL_FIELDS,"{""total_cap"":""$80M"",""max_round"":""$100M""}",fail,TC-3.3-015,Precision: Must be >= max single round ($100M baseline).
+CAC:LTV Ratio,0.4:1,fail,TC-3.3-018,Precision: Alert for quotient < 1.0.
+Churn Rate,101%,fail,TC-3.3-019,Precision: Out of range.
+Net Promoter Score (NPS),72.5,fail,TC-3.3-020,Precision: Reject non-integer NPS.
+Burn Multiplier,-0.5,fail,TC-3.3-023,Precision: Reject negative multiplier.
+TAM,$500K,fail,TC-3.3-025,Precision: TAM must be > $1M.
+ALL_FIELDS,"{""name"":""Microsoft Corporation"",""short_name"":""Microsoft Corporation""}",fail,TC-3.4-001,Consistency: Short Name identical to Company Name.
+ALL_FIELDS,"{""name"":""Zomato Limited"",""logo"":""https://cdn.swiggy.com/logo.png""}",fail,TC-3.4-004,Consistency: Logo domain mismatch.
+ALL_FIELDS,"{""category"":""Startup"",""nature"":""Public""}",fail,TC-3.4-005,Consistency: Startup incompatible with Public nature.
+ALL_FIELDS,"{""offices"":5,""office_locations"":""Bengaluru, Mumbai""}",fail,TC-3.4-009,Consistency: Count exceeds location entries (list of 2).
+ALL_FIELDS,"{""office_locations"":""Tokyo, Japan; Brazil"",""operating_countries"":""India, USA""}",fail,TC-3.4-011,Consistency: Locations not in Operating Countries list.
+ALL_FIELDS,"{""turnover"":""60%"",""tenure"":""8 Years""}",fail,TC-3.4-017,Consistency: High tenure contradicts high turnover (60%).
+ALL_FIELDS,"{""revenue_val"":160,""tam_val"":100}",fail,TC-3.4-034,Consistency: Revenues > TAM impossible.
+ALL_FIELDS,"{""total_capital"":""$30M"",""max_round"":""$50M""}",fail,TC-3.4-036,Consistency: Total < max round ($50M).
+ALL_FIELDS,"{""runway"":""24 months"",""capital"":""$12M"",""burn"":""$1M/month""}",fail,TC-3.4-042,Consistency: Calculated (12) != reported (24).
+ALL_COLUMNS,"{""data_source"":null}",fail,TC_DA_SA_001,Source: Missing data_source.
+ALL_COLUMNS,"{""data_source"":""Random Blog""}",fail,TC_DA_SA_002,Source: Unreliable source.
+ALL_COLUMNS,"{""data_source"":""Twitter Post"",""field"":""Annual Revenues""}",fail,TC_DA_SA_003,Source: Inappropriate source for domain.
+ALL_COLUMNS,"{""data_source_date"":""2018"",""field"":""Recent News""}",fail,TC_DA_SA_004,Source: Outdated timestamp for volatile field.
+ALL_COLUMNS,"{""data_source"":""AI Inference"",""field"":""Company Name""}",fail,TC_DA_SA_006,Source: Low confidence source for critical field.
+ALL_COLUMNS,"{""data_source"":""https://fake-site.invalid""}",fail,TC_DA_SA_008,Source: Unreachable source URL.
+ALL_COLUMNS,"{""data_source"":""Internet""}",fail,TC_DA_SA_009,Source: Vague source name.
+ALL_FIELDS,"{""ceo"":""John Xyzzabc"",""investors"":""AlphaBeta Ventures"",""awards"":""Global Unicorn Award 2099""}",fail,TC_4.1_01,Hallucination: Fabricated entities (people/investors/awards).
+CEO Name,Elon Mask,fail,TC_4.1_02,Hallucination: Typo/fake executive identity.
+Recent Funding Rounds,2024-05-01 - $500M Series Z,fail,TC_4.1_03,Hallucination: Fabricated funding stage (Series Z).
+Awards,Best AI Company in Mars 2025,fail,TC_4.1_04,Hallucination: Fabricated award.
+Top Customers,Stealth Fortune 1 Company,fail,TC_4.1_05,Hallucination: Fabricated/unresolvable customer.
+Recent News,2023-13-40 - Company acquired Google,fail,TC_4.1_06,Hallucination: Invalid date + fabricated major event.
+ALL_FIELDS,"{""name"":""ABC Tech Pvt Ltd"",""competitors"":""ABC Tech Pvt Ltd""}",fail,TC_4.1_07,Hallucination: Self-listed competitor (inconsistency).
+ALL_FIELDS,"{""revenue_val"":999000000000000,""employees"":10}",fail,TC_4.1_08,Hallucination: Unrealistic revenue per employee.
+Overview of the Company,Lorem ipsum dolor sit amet...,fail,TC_4.1_09,Hallucination: Placeholder text pattern detected.
+Regulatory & Compliance Status,"SOC5, ISO99999",fail,TC_4.1_10,Hallucination: Non-existent certifications.
+ALL_FIELDS,"{""name"":""OtherCo"",""ceo"":""Sundar Pichai""}",fail,TC_4.2_01,Hallucination: Misassigned real executive identity.
+ALL_FIELDS,"{""revenue"":""$5B"",""employees"":10}",fail,TC_4.2_02,Hallucination: Plausible but false financial scaling.
+ALL_FIELDS,"{""global_exposure"":""Yes"",""is_local"":true}",fail,TC_4.2_03,Hallucination: Geographic presence contradiction.
+Recent Funding Rounds,2023-06-01 - $50M Series B (Hallucinated),fail,TC_4.2_04,Hallucination: Fabricated but plausible funding history.
+ALL_FIELDS,"{""name"":""SmallCo"",""customers"":""Microsoft, Amazon""}",fail,TC_4.2_05,Hallucination: Unverifiable major customer associations.
+Technology Partners,"AWS, Google Cloud (Fabricated)",fail,TC_4.2_06,Hallucination: Plausible but unevidenced partnerships.
+Awards,Best AI Startup 2024 – Global Tech Awards,fail,TC_4.2_07,Hallucination: Non-existent but plausible award.
+ALL_FIELDS,"{""name"":""Startup"",""overview"":""AI SaaS company"",""services"":""Logistics trucking services""}",fail,TC_4.2_10,Hallucination: Semantic inconsistency across narrative fields.
+ALL_FIELDS,"{""revenue"":""$873,492,123"",""source"":null}",fail,TC_4.3_01,Hallucination: Overly precise number without source.
+Employee Turnover,17.348%,fail,TC_4.3_02,Hallucination: Over-precision unrealistic for metric.
+Company Valuation,$2.3B (confirmed),fail,TC_4.3_03,Hallucination: Authoritative tone in estimated field.
+Recent News,Company acquired Tesla,fail,TC_4.3_08,Hallucination: Major event without date or source.
+ALL_FIELDS,"{""cac_ratio"":""5:1"",""cac"":500,""clv"":1000}",fail,TC_4.3_10,Hallucination: Ratio arithmetic mismatch.
+ALL_FIELDS,"{""cac"":100,""clv"":300,""ratio"":""3:1""}",pass,TC_5.1_01,Consistency: CAC:LTV = CLV ÷ CAC.
+ALL_FIELDS,"{""cac"":100,""clv"":300,""ratio"":""2:1""}",fail,TC_5.1_02,Consistency: Detect incorrect ratio calculation.
+ALL_FIELDS,"{""cac"":200,""clv"":600,""ratio"":""3.0""}",pass,TC_5.1_03,Consistency: Validate decimal ratio format.
+CAC:LTV Ratio,three,fail,TC_5.1_04,Consistency: Detect invalid ratio format.
+ALL_FIELDS,"{""cac"":100,""clv"":300}",pass,TC_5.1_05,Consistency: Validate CLV > CAC.
+ALL_FIELDS,"{""cac"":200,""clv"":150}",fail,TC_5.1_06,Consistency: Detect CLV < CAC.
+ALL_FIELDS,"{""burn"":50000,""arr"":100000,""multiplier"":0.5}",pass,TC_5.1_07,Consistency: Burn Multiplier = Burn Rate ÷ Net New ARR.
+ALL_FIELDS,"{""burn"":50000,""arr"":100000,""multiplier"":1.5}",fail,TC_5.1_08,Consistency: Detect incorrect Burn Multiplier.
+Burn Multiplier,0.8,pass,TC_5.1_09,Consistency: Validate efficiency threshold (<1 good).
+Burn Multiplier,2.5,fail,TC_5.1_10,Consistency: Flag inefficient burn (>1).
+ALL_FIELDS,"{""capital"":600000,""burn"":100000,""runway"":6}",pass,TC_5.1_11,Consistency: Runway = Total Capital / Burn Rate.
+ALL_FIELDS,"{""capital"":600000,""burn"":100000,""runway"":10}",fail,TC_5.1_12,Consistency: Detect incorrect runway calculation.
+Runway,4,fail,TC_5.1_13,Consistency: Flag critical runway (<6 months).
+ALL_FIELDS,"{""rounds"":[100000,200000],""total"":300000}",pass,TC_5.1_14,Consistency: Validate total capital ≥ max funding round.
+ALL_FIELDS,"{""rounds"":[100000,200000],""total"":150000}",fail,TC_5.1_15,Consistency: Detect inconsistent total capital.
+ALL_FIELDS,"{""revenue"":1000000,""burn"":500000,""multiplier"":0.5}",pass,TC_5.1_16,Consistency: Validate Burn Multiplier dependency on revenue.
+ALL_FIELDS,"{""revenue"":1000000,""burn"":2000000,""multiplier"":2}",fail,TC_5.1_17,Consistency: Detect invalid burn vs revenue relationship.
+Year of Incorporation,2030,fail,TC_5.2_01,Consistency: Year should not be in future.
+Year of Incorporation,1500,fail,TC_5.2_02,Consistency: Year should be ≥ 1800.
+Year of Incorporation,2015,pass,TC_5.2_03,Consistency: Valid year format.
+Employee Size,100-50,fail,TC_5.2_04,Consistency: Range format must have Min < Max.
+Employee Size,11-50,pass,TC_5.2_05,Consistency: Valid numeric range.
+Employee Turnover,150%,fail,TC_5.2_06,Consistency: % must be between 0–100.
+Employee Turnover,15%,pass,TC_5.2_07,Consistency: Valid percentage.
+Average Retention Tenure,2.5,fail,TC_5.2_08,Consistency: Must contain unit (Years/Months).
+Average Retention Tenure,2.5 Years,pass,TC_5.2_09,Consistency: Valid tenure.
+Number of Offices (beyond HQ),-5,fail,TC_5.2_10,Consistency: Must be non-negative.
+Number of Offices (beyond HQ),3,pass,TC_5.2_11,Consistency: Valid value.
+Category,Startup,pass,TC_5.2_12,Consistency: Must match predefined enum.
+Category,BigCompany,fail,TC_5.2_13,Consistency: Invalid enum value.
+Nature of Company,Private,pass,TC_5.2_14,Consistency: Must match enum list.
+Nature of Company,HybridCorp,fail,TC_5.2_15,Consistency: Invalid type.
+Website URL,http//abc.com,fail,TC_5.2_16,Consistency: Must be valid HTTPS URL.
+Website URL,https://example.com,pass,TC_5.2_17,Consistency: Valid URL.
+Company Name,ABC Ltd 🚀,fail,TC_5.2_18,Consistency: Should not contain emojis.
+Company Name,ABC Pvt Ltd,pass,TC_5.2_19,Consistency: Valid legal name.
+Annual Revenues,-50000000%,fail,TC_5.2_20,Consistency: Must be positive if present.
+Annual Revenues,"$1,000,000",pass,TC_5.2_21,Consistency: Valid revenue.
+Profitability Status,Profitable,pass,TC_5.2_22,Consistency: Must match enum.
+Profitability Status,Growing,fail,TC_5.2_23,Consistency: Invalid value.
+CAC:LTV Ratio,abc,fail,TC_5.2_24,Consistency: Must be numeric ratio.
+CAC:LTV Ratio,3:1,pass,TC_5.2_25,Consistency: Valid ratio.
+Churn Rate,120%,fail,TC_5.2_26,Consistency: Must be between 0–100%.
+Churn Rate,5%,pass,TC_5.2_27,Consistency: Valid churn.
+Net Promoter Score (NPS),150,fail,TC_5.2_28,Consistency: Must be between -100 to 100.
+Net Promoter Score (NPS),45,pass,TC_5.2_29,Consistency: Valid NPS.
+ALL_FIELDS,"{""inc_year"":2015,""funding"":""2010-05-10 - $5M""}",fail,TC_5.3_001,Consistency: Funding round must occur after incorporation year.
+ALL_FIELDS,"{""inc_year"":2020,""news"":""2018-06-01 - Product Launch""}",fail,TC_5.3_002,Consistency: News events must occur after incorporation.
+Recent News,2020-01-01 - Expansion - https://x.com,fail,TC_5.3_003,Consistency: News must be within last 2 years (2024+ baseline).
+Recent Funding Rounds,"2022-01-01 - $5M, 2021-01-01 - $3M",fail,TC_5.3_004,Consistency: Funding rounds must be in chronological order.
+Innovation Roadmap,2022 Q1 - Launch AI Product,fail,TC_5.3_006,Consistency: Roadmap dates must be future-oriented.
+ALL_FIELDS,"{""inc_year"":2018,""exit"":""2015 - IPO""}",fail,TC_5.3_008,Consistency: Exit events must occur after incorporation.
+ALL_FIELDS,"{""inc_year"":2024,""maturity"":""Enterprise""}",fail,TC_5.3_010,Consistency: Maturity must align with company age (Enterprise needs >10 yrs).
+Company Name,Infosys Ltd.,pass,TC_5.4_001,Consistency: Validate UTF-8 compliant legal name format.
+Company Name,Infosys 🚀,fail,TC_5.4_002,Consistency: Reject invalid special characters (emoji).
+Short Name,TCS,pass,TC_5.4_003,Consistency: Validate title case and length.
+Logo,https://logo.com/img.png,pass,TC_5.4_004,Consistency: Validate image URL format.
+Logo,https://logo.com/file.pdf,fail,TC_5.4_005,Consistency: Reject non-image URL.
+Category,Startup,pass,TC_5.4_006,Consistency: Validate enum format consistency.
+Category,Tech Startup,fail,TC_5.4_007,Consistency: Reject invalid enum.
+Year of Incorporation,2015,pass,TC_5.4_008,Consistency: Validate YYYY format.
+Year of Incorporation,15,fail,TC_5.4_009,Consistency: Reject invalid year format.
+Company Headquarters,"Bangalore, India",pass,TC_5.4_010,Consistency: Validate location format.
+Countries Operating In,"India, USA, Germany",pass,TC_5.4_011,Consistency: Validate comma-separated format.
+Employee Size,100-500,pass,TC_5.4_012,Consistency: Validate numeric range format.
+Employee Size,200,pass,TC_5.4_013,Consistency: Validate single integer format.
+Employee Turnover,15.50%,pass,TC_5.4_014,Consistency: Validate percentage format.
+Average Retention Tenure,2.5 Years,pass,TC_5.4_016,Consistency: Validate duration format.
+Website URL,https://example.com,pass,TC_5.4_017,Consistency: Validate HTTPS URL.
+Website URL,htp://example,fail,TC_5.4_018,Consistency: Reject invalid URL.
+Website Rating,8.5,pass,TC_5.4_019,Consistency: Validate decimal format.
+Website Rating,11,fail,TC_5.4_020,Consistency: Reject out-of-range value (>10).
+LinkedIn Profile URL,https://linkedin.com/company/openai,pass,TC_5.4_021,Consistency: Validate LinkedIn format.
+Twitter (X) Handle,@openai,pass,TC_5.4_022,Consistency: Validate handle format.
+Twitter (X) Handle,@openai!!!,fail,TC_5.4_023,Consistency: Reject invalid handle.
+Company Contact Email,info@company.com,pass,TC_5.4_024,Consistency: Validate email format.
+Company Contact Email,info@company,fail,TC_5.4_025,Consistency: Reject invalid email.
+Company Phone Number,919876543210,pass,TC_5.4_026,Consistency: Validate E.164 format.
+Company Phone Number,9876543210,fail,TC_5.4_027,Consistency: Reject invalid phone (missing country code).
+Annual Revenues,"$1,000,000",pass,TC_5.4_028,Consistency: Validate currency format.
+Annual Revenues,1000000,fail,TC_5.4_029,Consistency: Reject invalid currency (missing symbol).
+Year-over-Year Growth Rate,25%,pass,TC_5.4_030,Consistency: Validate percentage format.
+Profitability Status,Profitable,pass,TC_5.4_031,Consistency: Validate enum.
+Profitability Status,Growing,fail,TC_5.4_032,Consistency: Reject invalid enum.
+ALL_FIELDS,"{""employees"":100,""hiring"":50,""turnover"":""2%""}",pass,TC_5.5_01,Consistency: Growth Consistency (High hiring + low turnover).
+ALL_FIELDS,"{""employees"":50000,""countries"":""10"",""offices"":1}",fail,TC_5.5_02,Consistency: Scale Consistency (50k employees across 10 countries cannot have 1 office).
+ALL_FIELDS,"{""nps"":85,""churn"":""45%""}",fail,TC_5.5_03,Consistency: Customer Retention Consistency (High NPS contradicts High Churn).
+ALL_FIELDS,"{""tam_val"":1000000000,""revenue_val"":500000000,""market_share"":""2%""}",fail,TC_5.5_04,Consistency: Market Dominance Consistency ($500M in $1B TAM != 2% share).
+ALL_FIELDS,"{""capital"":1000000,""burn"":500000,""runway"":24}",fail,TC_5.5_05,Consistency: Financial Survival Consistency ($1M / $500k = 2 months, not 24).
+ALL_FIELDS,"{""nature"":""Public"",""funding"":""Series A""}",fail,TC_5.5_06,Consistency: Legal & Financial Consistency (Public companies don't have Series A).

@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "company_name": { "type": ["string", "null"] },
+    "job_role_details": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "opportunity_type": { "type": ["string", "null"] },
+          "role_title": { "type": ["string", "null"] },
+          "role_category": { "type": ["string", "null"] },
+          "job_description": { "type": ["string", "null"] },
+          "compensation": { "type": ["string", "null"] },
+          "ctc_or_stipend": { "type": ["number", "null"] },
+          "bonus": { "type": ["string", "null"] },
+          "benefits_summary": { "type": ["string", "null"] },
+          "hiring_rounds": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "round_number": { "type": ["number", "null"] },
+                "round_name": { "type": ["string", "null"] },
+                "round_category": { "type": ["string", "null"] },
+                "evaluation_type": { "type": ["string", "null"] },
+                "assessment_mode": { "type": ["string", "null"] },
+                "skill_sets": {
+                  "type": "array",
+                  "items": { "type": ["string", "null"] }
+                },
+                "topics": {
+                  "type": "array",
+                  "items": { "type": ["string", "null"] }
+                },
+                "difficulty": { "type": ["string", "null"] },
+                "duration": { "type": ["string", "null"] },
+                "questions_count": { "type": ["number", "null"] },
+                "sample_questions": {
+                  "type": "array",
+                  "items": { "type": ["string", "null"] }
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "required_skills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "skill_name": { "type": ["string", "null"] },
+                "proficiency_level": { "type": ["string", "null"] },
+                "required": { "type": ["boolean", "null"] }
+              },
+              "additionalProperties": true
+            }
+          },
+          "application_deadline": { "type": ["string", "null"] },
+          "start_date": { "type": ["string", "null"] },
+          "location": { "type": ["string", "null"] },
+          "work_mode": { "type": ["string", "null"] },
+          "experience_required": { "type": ["string", "null"] },
+          "education_required": { "type": ["string", "null"] }
+        },
+        "additionalProperties": true
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "innovx_master": {
+    "company_name": "<string>",
+    "industry": "<string>",
+    "sub_industry": "<string>",
+    "core_business_model": "<string>",
+    "target_market": "<string>",
+    "geographic_focus": "<string>"
+  },
+
+  "industry_trends": [
+    {
+      "trend_name": "<string>",
+      "trend_description": "<string>",
+      "time_horizon_years": "<number>",
+      "trend_drivers": ["<string>"],
+      "impact_areas": ["<string>"],
+      "strategic_importance": "<string>"
+    }
+  ],
+
+  "innovation_roadmap": [
+    {
+      "innovation_theme": "<string>",
+      "problem_statement": "<string>",
+      "target_customer": "<string>",
+      "innovation_type": "<string>",
+      "time_horizon": "<string>",
+      "expected_outcome": "<string>",
+      "required_capabilities": ["<string>"],
+      "dependent_trend_names": ["<string>"]
+    }
+  ],
+
+  "competitive_landscape": [
+    {
+      "competitor_name": "<string>",
+      "competitor_type": "<string>",
+      "core_strength": "<string>",
+      "market_positioning": "<string>",
+      "bet_name": "<string>",
+      "bet_description": "<string>",
+      "innovation_category": "<string>",
+      "futuristic_level": "<string>",
+      "strategic_objective": "<string>",
+      "threat_level": "<string>"
+    }
+  ],
+
+  "strategic_pillars": [
+    {
+      "cto_vision_statement": "<string>",
+      "pillar_name": "<string>",
+      "pillar_description": "<string>",
+      "focus_area": "<string>",
+      "key_technologies": ["<string>"],
+      "strategic_risks": "<string>",
+      "strategic_assumptions": "<string>"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "company_id": "<number>",
+  "name": "<string>",
+  "short_name": "<string>",
+  "logo_url": "<string>",
+  "category": "<string>",
+  "operating_countries": "<string>",
+  "office_locations": "<string>",
+  "employee_size": "<string>",
+  "yoy_growth_rate": "<string>"
+}

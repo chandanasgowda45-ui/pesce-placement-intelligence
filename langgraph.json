@@ -1,0 +1,8 @@
+{
+  "graphs": {
+    "srm_company_assistant": "./src/lib/orchestration/studio-graph-wrapper.mjs:graph"
+  },
+  "http": {
+    "app": "./src/lib/orchestration/studio-http-compat.mjs"
+  }
+}
