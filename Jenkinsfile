@@ -1,10 +1,14 @@
 pipeline {
     agent any
+    environment {
+    ENV_FILE = credentials('env-file')
+}
 
     stages {
 
         stage('Install Dependencies') {
             steps {
+                bat'copy "%ENV_FILE%" .env'
                 bat 'npm install'
             }
         }
