@@ -9,13 +9,13 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 bat'copy "%ENV_FILE%" .env'
-                bat 'npm install'
+                bat 'cd frontend && npm install'
             }
         }
 
         stage('Build Project') {
             steps {
-                bat 'npm run build'
+                bat 'cd frontend && npm run build'
             }
         }
 
