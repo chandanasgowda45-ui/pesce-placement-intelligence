@@ -27,6 +27,7 @@ pipeline {
 
         stage('Run Docker Compose') {
     steps {
+        bat 'docker rm -f placement-container || exit 0'
         bat 'docker-compose down'
         bat 'docker-compose up --build -d'
     }
