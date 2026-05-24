@@ -4,6 +4,7 @@ import {
   LayoutDashboard,
   Building2,
   Brain,
+  BrainCircuit,
   GitBranch,
   Sparkles,
   Menu,
@@ -12,6 +13,9 @@ import {
   GitCompare,
   Tags,
   Search,
+  Timer,
+  MessageSquare,
+  Swords,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -25,6 +29,11 @@ const navItems = [
   { to: "/hiring-process", label: "Hiring Rounds", icon: GitBranch },
   { to: "/innovx", label: "INNOVX", icon: Sparkles },
   { to: "/analytics", label: "Analytics", icon: PieChart },
+  { to: "/candidate-analyzer", label: "Candidate Analyzer", icon: BrainCircuit },
+  { to: "/rejection-probability", label: "Rejection Engine", icon: BrainCircuit },
+  { to: "/placement-war-room", label: "War Room", icon: Swords },
+  { to: "/placement-timeline", label: "Placement Timeline", icon: Timer },
+  { to: "/interview-experiences", label: "Interview Insights", icon: MessageSquare },
 ];
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

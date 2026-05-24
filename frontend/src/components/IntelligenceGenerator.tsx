@@ -5,7 +5,7 @@ const IntelligenceGenerator: React.FC = () => {
   // Form State
   const [companyName, setCompanyName] = useState('');
   const [country, setCountry] = useState('Global');
-  
+
   // UI State
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +36,7 @@ const IntelligenceGenerator: React.FC = () => {
     <div className="max-w-4xl mx-auto p-6 space-y-6">
       <div className="bg-white rounded-xl shadow-sm border p-6">
         <h2 className="text-xl font-semibold text-gray-800 mb-4">AI Company Intelligence Generator</h2>
-        
+
         <form onSubmit={handleGenerate} className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="md:col-span-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
@@ -49,7 +49,7 @@ const IntelligenceGenerator: React.FC = () => {
               onChange={(e) => setCompanyName(e.target.value)}
             />
           </div>
-          
+
           <div className="md:col-span-1">
             <label className="block text-sm font-medium text-gray-700 mb-1">Country</label>
             <input
@@ -87,8 +87,8 @@ const IntelligenceGenerator: React.FC = () => {
             <h3 className="text-lg font-bold text-gray-900">{result.company_name}</h3>
             <span className="text-xs font-medium bg-green-100 text-green-800 px-2 py-1 rounded">Research Complete</span>
           </div>
-          
-          <div className="space-y-4">
+
+          <div className="space-y-6">
             <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">Golden Record Data (163 Fields)</h4>
             <div className="bg-gray-900 rounded-lg p-4 overflow-auto max-h-[600px]">
               <pre className="text-blue-400 font-mono text-xs leading-relaxed">

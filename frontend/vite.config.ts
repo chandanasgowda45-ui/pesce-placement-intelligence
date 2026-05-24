@@ -10,11 +10,14 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
-      port: 8080,
-      host: true,
+      port: 5173,
+      host: 'localhost',
       cors: true,
       hmr: {
         overlay: false,
+        protocol: 'ws',
+        host: 'localhost',
+        port: 5173,
       },
       headers: {
         'Cross-Origin-Embedder-Policy': 'credentialless',

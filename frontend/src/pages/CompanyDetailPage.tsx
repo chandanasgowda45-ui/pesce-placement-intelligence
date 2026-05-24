@@ -56,12 +56,6 @@ function CompanyDetailPage() {
   const { data, isLoading, error } = useCompanyFullData(companyId || "");
   const company = data?.company; // Ensure company is not null for subsequent access
   const isOffline = typeof navigator !== "undefined" ? !navigator.onLine : false;
-
-  console.log("COMPONENT DATA:", data);
-  console.log("COMPANY OBJECT:", company);
-  console.log("HIRING FROM DATA:", data?.hiringRounds);
-  console.log("HIRING FROM COMPANY:", company?.hiring_rounds_json);
-
   const innovx = React.useMemo(() => {
     if (!company) return null;
     // Defensive extraction for innovx_json, similar to hiringRounds logic
@@ -166,8 +160,6 @@ function CompanyDetailPage() {
         rounds = [];
       }
     }
-
-    console.log("FINAL ROUNDS:", rounds);
 
     const mappedRounds = Array.isArray(rounds)
       ? rounds.map((round: any, index: number) => ({
@@ -291,14 +283,14 @@ function CompanyDetailPage() {
         label: "Overview",
         icon: Building2,
         fields: [
-          { label: "Name", fieldKey: "name" },
-          { label: "Short Name", fieldKey: "short_name" },
-          { label: "Category", fieldKey: "category" },
-          { label: "Incorporation Year", fieldKey: "incorporation_year" },
-          { label: "Nature of Company", fieldKey: "nature_of_company" },
-          { label: "Headquarters", fieldKey: "headquarters_address" },
-          { label: "Employee Size", fieldKey: "employee_size" },
-          { label: "Overview", fieldKey: "overview_text" },
+          { label: "Name", fieldKey: "name" as const },
+          { label: "Short Name", fieldKey: "short_name" as const },
+          { label: "Category", fieldKey: "category" as const },
+          { label: "Incorporation Year", fieldKey: "incorporation_year" as const },
+          { label: "Nature of Company", fieldKey: "nature_of_company" as const },
+          { label: "Headquarters", fieldKey: "headquarters_address" as const },
+          { label: "Employee Size", fieldKey: "employee_size" as const },
+          { label: "Overview", fieldKey: "overview_text" as const },
         ],
       },
       {
@@ -306,9 +298,9 @@ function CompanyDetailPage() {
         label: "Hiring Process",
         icon: ListChecks,
         fields: [
-          { label: "Hiring Velocity", fieldKey: "hiring_velocity" },
-          { label: "Employee Turnover", fieldKey: "employee_turnover" },
-          { label: "Rounds", fieldKey: "hiring_rounds" }
+          { label: "Hiring Velocity", fieldKey: "hiring_velocity" as const },
+          { label: "Employee Turnover", fieldKey: "employee_turnover" as const },
+          { label: "Rounds", fieldKey: "hiring_rounds" as const }
         ],
       },
       {
@@ -316,8 +308,8 @@ function CompanyDetailPage() {
         label: "Roles & Skills",
         icon: Target,
         fields: [
-          { label: "Tech Stack", fieldKey: "tech_stack" },
-          { label: "Skill Relevance", fieldKey: "skill_relevance" }
+          { label: "Tech Stack", fieldKey: "tech_stack" as const },
+          { label: "Skill Relevance", fieldKey: "skill_relevance" as const }
         ],
       },
       {
@@ -325,18 +317,18 @@ function CompanyDetailPage() {
         label: "Business & Market",
         icon: Briefcase,
         fields: [
-          { label: "Pain Points Addressed", fieldKey: "pain_points_addressed" },
-          { label: "Focus Sectors", fieldKey: "focus_sectors" },
-          { label: "Offerings", fieldKey: "offerings_description" },
-          { label: "Top Customers", fieldKey: "top_customers" },
-          { label: "Core Value Proposition", fieldKey: "core_value_proposition" },
-          { label: "Unique Differentiators", fieldKey: "unique_differentiators" },
-          { label: "Competitive Advantages", fieldKey: "competitive_advantages" },
-          { label: "Weaknesses & Gaps", fieldKey: "weaknesses_gaps" },
-          { label: "Key Challenges", fieldKey: "key_challenges_needs" },
-          { label: "Key Competitors", fieldKey: "key_competitors" },
-          { label: "Market Share %", fieldKey: "market_share_percentage" },
-          { label: "Strategic Priorities", fieldKey: "strategic_priorities" },
+          { label: "Pain Points Addressed", fieldKey: "pain_points_addressed" as const },
+          { label: "Focus Sectors", fieldKey: "focus_sectors" as const },
+          { label: "Offerings", fieldKey: "offerings_description" as const },
+          { label: "Top Customers", fieldKey: "top_customers" as const },
+          { label: "Core Value Proposition", fieldKey: "core_value_proposition" as const },
+          { label: "Unique Differentiators", fieldKey: "unique_differentiators" as const },
+          { label: "Competitive Advantages", fieldKey: "competitive_advantages" as const },
+          { label: "Weaknesses & Gaps", fieldKey: "weaknesses_gaps" as const },
+          { label: "Key Challenges", fieldKey: "key_challenges_needs" as const },
+          { label: "Key Competitors", fieldKey: "key_competitors" as const },
+          { label: "Market Share %", fieldKey: "market_share_percentage" as const },
+          { label: "Strategic Priorities", fieldKey: "strategic_priorities" as const },
         ],
       },
       {
@@ -344,14 +336,14 @@ function CompanyDetailPage() {
         label: "Culture & People",
         icon: Heart,
         fields: [
-          { label: "Work Culture", fieldKey: "work_culture_summary" },
-          { label: "Hiring Velocity", fieldKey: "hiring_velocity" },
-          { label: "Employee Turnover", fieldKey: "employee_turnover" },
-          { label: "Manager Quality", fieldKey: "manager_quality" },
-          { label: "Psychological Safety", fieldKey: "psychological_safety" },
-          { label: "Feedback Culture", fieldKey: "feedback_culture" },
-          { label: "D&I Score", fieldKey: "diversity_inclusion_score" },
-          { label: "Burnout Risk", fieldKey: "burnout_risk" },
+          { label: "Work Culture", fieldKey: "work_culture_summary" as const },
+          { label: "Hiring Velocity", fieldKey: "hiring_velocity" as const },
+          { label: "Employee Turnover", fieldKey: "employee_turnover" as const },
+          { label: "Manager Quality", fieldKey: "manager_quality" as const },
+          { label: "Psychological Safety", fieldKey: "psychological_safety" as const },
+          { label: "Feedback Culture", fieldKey: "feedback_culture" as const },
+          { label: "D&I Score", fieldKey: "diversity_inclusion_score" as const },
+          { label: "Burnout Risk", fieldKey: "burnout_risk" as const },
         ],
       },
       {
@@ -359,10 +351,10 @@ function CompanyDetailPage() {
         label: "Compensation",
         icon: DollarSign,
         fields: [
-          { label: "Fixed vs Variable Pay", fieldKey: "fixed_vs_variable_pay" },
-          { label: "Bonus Predictability", fieldKey: "bonus_predictability" },
-          { label: "ESOPs / Incentives", fieldKey: "esops_incentives" },
-          { label: "Lifestyle Benefits", fieldKey: "lifestyle_benefits" },
+          { label: "Fixed vs Variable Pay", fieldKey: "fixed_vs_variable_pay" as const },
+          { label: "Bonus Predictability", fieldKey: "bonus_predictability" as const },
+          { label: "ESOPs / Incentives", fieldKey: "esops_incentives" as const },
+          { label: "Lifestyle Benefits", fieldKey: "lifestyle_benefits" as const },
         ],
       },
       {
@@ -370,11 +362,11 @@ function CompanyDetailPage() {
         label: "Technology",
         icon: Cpu,
         fields: [
-          { label: "Tech Stack", fieldKey: "tech_stack" },
-          { label: "AI/ML Adoption Level", fieldKey: "ai_ml_adoption_level" },
-          { label: "Cybersecurity Posture", fieldKey: "cybersecurity_posture" },
-          { label: "Innovation Roadmap", fieldKey: "innovation_roadmap" },
-          { label: "Tech Adoption Rating", fieldKey: "tech_adoption_rating" },
+          { label: "Tech Stack", fieldKey: "tech_stack" as const },
+          { label: "AI/ML Adoption Level", fieldKey: "ai_ml_adoption_level" as const },
+          { label: "Cybersecurity Posture", fieldKey: "cybersecurity_posture" as const },
+          { label: "Innovation Roadmap", fieldKey: "innovation_roadmap" as const },
+          { label: "Tech Adoption Rating", fieldKey: "tech_adoption_rating" as const },
         ],
       },
       {
@@ -382,8 +374,8 @@ function CompanyDetailPage() {
         label: "Career & Exit",
         icon: GraduationCap,
         fields: [
-          { label: "Exit Opportunities", fieldKey: "exit_opportunities" },
-          { label: "Skill Relevance", fieldKey: "skill_relevance" },
+          { label: "Exit Opportunities", fieldKey: "exit_opportunities" as const },
+          { label: "Skill Relevance", fieldKey: "skill_relevance" as const },
         ],
       },
     ],

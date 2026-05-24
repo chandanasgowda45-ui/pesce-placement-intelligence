@@ -60,18 +60,26 @@ interface DetailSectionProps {
 }
 
 export function DetailSection({ title, icon: Icon, fields, company }: DetailSectionProps) {
-  const safeFields = React.useMemo(() => (Array.isArray(fields) ? fields : []), [fields]);
+  const safeFields = React.useMemo(() => {
+    if (!Array.isArray(fields)) {
+      console.warn(`[FAIL] Invalid fields prop for "${title}": expected array, got ${typeof fields}`);
+      return [];
+    }
+    return fields;
+  }, [fields, title]);
 
   const diagnostics = React.useMemo(() => {
-    // Validate field definitions against schema
-    try {
-      validateFieldDefinitions(fields, `DetailSection "${title}"`);
-    } catch (error) {
-      // In development, throw to fail loudly; in production, log and continue
-      if (process.env.NODE_ENV === 'development') {
-        throw error;
-      } else {
-        console.error(error);
+    // Validate field definitions against schema - only if fields is a valid array
+    if (Array.isArray(fields)) {
+      try {
+        validateFieldDefinitions(fields, `DetailSection "${title}"`);
+      } catch (error) {
+        // In development, throw to fail loudly; in production, log and continue
+        if (process.env.NODE_ENV === 'development') {
+          throw error;
+        } else {
+          console.error(error);
+        }
       }
     }
 
@@ -80,9 +88,7 @@ export function DetailSection({ title, icon: Icon, fields, company }: DetailSect
 
     if (!Array.isArray(fields)) {
       warnings.push(`Invalid section payload: ${title}`);
-    }
-
-    if (safeFields.length === 0) {
+    } else if (safeFields.length === 0) {
       warnings.push(`Empty section payload: ${title}`);
     }
 

@@ -15,6 +15,11 @@ import InnovXPage from "./pages/InnovXPage";
 import ExplorePage from "./pages/ExplorePage";
 import CompanyDetailPage from "./pages/CompanyDetailPage";
 import NotFound from "./pages/NotFound";
+import CandidateAnalyzer from "./pages/CandidateAnalyzer";
+import RejectionProbability from "./pages/RejectionProbability";
+import PlacementTimeline from "./pages/PlacementTimeline";
+import InterviewExperiences from "./pages/InterviewExperiences";
+import PlacementWarRoom from "./pages/PlacementWarRoom";
 // testing automatic deployment
 const queryClient = new QueryClient();
 
@@ -42,6 +47,13 @@ const App = () => (
           <Route path="/hiring-process" element={<HiringProcessPage />} />
           <Route path="/innovx" element={<InnovXPage />} />
           <Route path="/analytics" element={<AnalyticsPage />} />
+          <Route path="/candidate-analyzer" element={<CandidateAnalyzer />} />
+          <Route path="/rejection-probability" element={<RejectionProbability />} />
+          <Route path="/placement-war-room" element={<PlacementWarRoom />} />
+
+          <Route path="/placement-timeline" element={<PlacementTimeline />} />
+
+          <Route path="/interview-experiences" element={<InterviewExperiences />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

@@ -1,0 +1,46 @@
+[
+    {
+        "id": "exp_1",
+        "company": "Amazon",
+        "role": "SDE-1",
+        "content": "Amazon interview focused heavily on Leadership Principles and DSA. Questions: LRU Cache, Binary Tree Level Order Traversal. Tips: Use the STAR method for behavioral questions.",
+        "metadata": {
+            "difficulty": "Hard",
+            "location": "Remote"
+        },
+        "embedding": []
+    },
+    {
+        "id": "exp_2",
+        "company": "Google",
+        "role": "Software Engineer",
+        "content": "Google interview was purely technical. System design for a global rate limiter. DSA: Find median in a stream of integers. Focus on time complexity and edge cases.",
+        "metadata": {
+            "difficulty": "Expert",
+            "location": "Mountain View"
+        },
+        "embedding": []
+    },
+    {
+        "id": "exp_3",
+        "company": "TCS",
+        "role": "Digital Developer",
+        "content": "TCS Digital interview covered OOPs, SQL Joins, and basic Array problems. They asked about polymorphism and abstraction with real-world examples.",
+        "metadata": {
+            "difficulty": "Medium",
+            "location": "Mumbai"
+        },
+        "embedding": []
+    },
+    {
+        "id": "exp_4",
+        "company": "Amazon",
+        "role": "Cloud Architect",
+        "content": "AWS focused interview. Questions on VPC peering, S3 bucket policies, and migration strategies. Mentioned CAP theorem and eventual consistency.",
+        "metadata": {
+            "difficulty": "Hard",
+            "location": "Bangalore"
+        },
+        "embedding": []
+    }
+]

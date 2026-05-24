@@ -12,22 +12,28 @@ import { useStudentProfile } from "@/hooks/useStudentProfile";
 import { calculateDecision } from "@/services/decisionService";
 import SafeImage from "@/components/common/SafeImage";
 import { STRATEGIC_CATEGORIES, getStrategicCategory } from "@/lib/categoryUtils";
-
+import {
+  BrainCircuit,
+  Timer,
+  MessageSquare,
+  ArrowRight
+} from "lucide-react";
 
 const CATEGORY_MAP = STRATEGIC_CATEGORIES.map(cat => ({
   ...cat,
   count: 0,
   color:
-    cat.id === "tech-giants"        ? "border-indigo-500/20 bg-indigo-500/5 text-indigo-700" :
-    cat.id === "product-companies" ? "border-blue-500/20 bg-blue-500/5 text-blue-700" :
-    cat.id === "service-companies" ? "border-slate-500/20 bg-slate-500/5 text-slate-700" :
-    "border-amber-500/20 bg-amber-500/5 text-amber-700",
+    cat.id === "tech-giants" ? "border-indigo-500/20 bg-indigo-500/5 text-indigo-700" :
+      cat.id === "product-companies" ? "border-blue-500/20 bg-blue-500/5 text-blue-700" :
+        cat.id === "service-companies" ? "border-slate-500/20 bg-slate-500/5 text-slate-700" :
+          "border-amber-500/20 bg-amber-500/5 text-amber-700",
 }));
 
 export default function HomePage() {
   const { data: companies = [] } = useCompanies();
   const { profile } = useStudentProfile();
   const [searchQuery, setSearchQuery] = useState("");
+  const [backendMessage, setBackendMessage] = useState("");
   const { data: searchResults } = useSearchCompanies(searchQuery);
   const navigate = useNavigate();
 
@@ -52,12 +58,12 @@ export default function HomePage() {
     const total = companies.length;
     const growthLeaders = companies.filter(c => {
       const rate = parseFloat(
-  String(c.yoy_growth_rate || "0")
-    .replace(/[^0-9.]/g, '')
-);
+        String(c.yoy_growth_rate || "0")
+          .replace(/[^0-9.]/g, '')
+      );
       return rate > 20 && rate < 1000;
     }).length;
-    
+
     const avgSignal = companies.reduce((acc, c) => {
       const s = ((parseFloat(c.brand_sentiment_score || "0") + parseFloat(c.glassdoor_rating || "0") + parseFloat(c.tech_adoption_rating || "0")) / 3);
       return acc + s;
@@ -67,6 +73,18 @@ export default function HomePage() {
 
     return { total, growthLeaders, avgSignal: avgSignal.toFixed(1), marqueeCount };
   }, [companies]);
+  const testBackend = async () => {
+    const API_URL = import.meta.env.VITE_API_URL;
+    try {
+      const response = await fetch(`${API_URL}/api/status`);
+      const data = await response.json();
+
+      setBackendMessage(data.status);
+    } catch (error) {
+      console.error(error);
+      setBackendMessage("Backend connection failed");
+    }
+  };
 
   const categoryStats = useMemo(() => {
     return CATEGORY_MAP.map(cat => {
@@ -93,13 +111,25 @@ export default function HomePage() {
               Data-driven market signals and institutional placement velocity for the PESCE ecosystem.
             </p>
             <div className="flex flex-wrap gap-3 pt-4">
-              <button 
-                onClick={() => navigate('/analytics')}
-                className="px-8 py-3.5 bg-primary text-white rounded-xl font-bold text-sm hover:scale-[1.03] transition-all shadow-xl shadow-primary/30 active:scale-95"
+              <button
+                onClick={() => navigate('/rejection-probability')}
+                className="px-8 py-3.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-black uppercase italic tracking-tighter text-sm hover:scale-[1.03] transition-all shadow-xl shadow-rose-600/30 active:scale-95 flex items-center gap-2"
               >
-                Launch Intelligence Suite
+                AI Rejection Audit <BrainCircuit className="h-4 w-4 animate-pulse text-rose-200" />
               </button>
-              <button 
+              <button
+                onClick={() => navigate('/analytics')}
+                className="px-8 py-3.5 bg-primary text-white rounded-xl font-black uppercase italic tracking-tighter text-sm hover:scale-[1.03] transition-all shadow-xl shadow-primary/30 active:scale-95"
+              >
+                Launch Analytics <ArrowRight className="inline ml-2 h-4 w-4" />
+              </button>
+              <button
+                onClick={testBackend}
+                className="px-8 py-3.5 bg-emerald-600 text-white rounded-xl font-black uppercase text-xs hover:bg-emerald-700 transition-all flex flex-col items-center justify-center min-w-[140px]"
+              >
+                <span>{backendMessage || "Test API Node"}</span>
+              </button>
+              <button
                 onClick={() => navigate('/skill-mapping')}
                 className="px-8 py-3.5 bg-white/5 text-white backdrop-blur-xl rounded-xl font-bold text-sm hover:bg-white/15 transition-all border border-white/10 active:scale-95"
               >
@@ -145,6 +175,7 @@ export default function HomePage() {
           </div>
         </div>
 
+
         {/* Strategic Readiness Widget */}
         <div className="grid gap-5 lg:grid-cols-3">
           <div className="lg:col-span-2 bg-indigo-600 rounded-2xl p-8 lg:p-10 text-white shadow-xl relative overflow-hidden">
@@ -184,57 +215,57 @@ export default function HomePage() {
             </Link>
           </div>
 
-        {/* Personalized Recommendations */}
-        <div className="space-y-8">
-          <div className="flex items-end justify-between">
-            <div className="space-y-2">
-              <Badge variant="outline" className="border-primary/50 text-primary px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Decision Engine</Badge>
-              <h2 className="text-3xl font-black tracking-tighter uppercase italic">Recommended for <span className="text-primary underline">YOU</span></h2>
-              <p className="text-muted-foreground text-lg font-medium">Top matches based on your skills ({profile.skills.join(", ")})</p>
+          {/* Personalized Recommendations */}
+          <div className="space-y-8">
+            <div className="flex items-end justify-between">
+              <div className="space-y-2">
+                <Badge variant="outline" className="border-primary/50 text-primary px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Decision Engine</Badge>
+                <h2 className="text-3xl font-black tracking-tighter uppercase italic">Recommended for <span className="text-primary underline">YOU</span></h2>
+                <p className="text-muted-foreground text-lg font-medium">Top matches based on your skills ({profile.skills.join(", ")})</p>
+              </div>
+              <Link to="/compare" className="text-xs font-black text-primary hover:underline underline-offset-8 uppercase tracking-widest">Compare Matches →</Link>
             </div>
-            <Link to="/compare" className="text-xs font-black text-primary hover:underline underline-offset-8 uppercase tracking-widest">Compare Matches →</Link>
-          </div>
-          
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {recommendations.map((c) => (
-              <Card 
-                key={c.company_id} 
-                onClick={() => navigate(`/companies/${c.company_id}`)}
-                className="group relative bg-white rounded-2xl p-6 border-slate-200/60 shadow-sm hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 p-6">
-                  <div className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-black shadow-sm">
-                    {c.decision.selectionProbability}% PROBABILITY
+
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {recommendations.map((c) => (
+                <Card
+                  key={c.company_id}
+                  onClick={() => navigate(`/companies/${c.company_id}`)}
+                  className="group relative bg-white rounded-2xl p-6 border-slate-200/60 shadow-sm hover:border-primary/50 hover:shadow-xl hover:-translate-y-1 transition-all cursor-pointer overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 p-6">
+                    <div className="bg-emerald-100 text-emerald-700 px-3 py-1 rounded-full text-[10px] font-black shadow-sm">
+                      {c.decision.selectionProbability}% PROBABILITY
+                    </div>
                   </div>
-                </div>
-                
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-50 mb-4 group-hover:bg-primary/10 transition-colors">
-                  {c.logo_url ? (
-                    <SafeImage 
-                      src={c.logo_url} 
-                      alt={c.name} 
-                      className="h-10 w-10 object-contain" 
-                    />
-                  ) : (
-                    <Building2 className="h-6 w-6 text-slate-400" />
-                  )}
-                </div>
-                
-                <div className="space-y-1">
-                  <h3 className="text-xl font-black truncate">{c.name}</h3>
-                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{c.category}</p>
-                </div>
-                
-                <div className="mt-6 pt-6 border-t border-slate-100">
-                  <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-widest text-primary">
-                    <span>{c.decision.recommendation}</span>
-                    <span className="opacity-40">{c.decision.matchScore}% Match</span>
+
+                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-50 mb-4 group-hover:bg-primary/10 transition-colors">
+                    {c.logo_url ? (
+                      <SafeImage
+                        src={c.logo_url}
+                        alt={c.name}
+                        className="h-10 w-10 object-contain"
+                      />
+                    ) : (
+                      <Building2 className="h-6 w-6 text-slate-400" />
+                    )}
                   </div>
-                </div>
-              </Card>
-            ))}
+
+                  <div className="space-y-1">
+                    <h3 className="text-xl font-black truncate">{c.name}</h3>
+                    <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest">{c.category}</p>
+                  </div>
+
+                  <div className="mt-6 pt-6 border-t border-slate-100">
+                    <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-widest text-primary">
+                      <span>{c.decision.recommendation}</span>
+                      <span className="opacity-40">{c.decision.matchScore}% Match</span>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
           </div>
-        </div>
         </div>
 
         {/* Strategic Sectors */}
@@ -278,7 +309,7 @@ export default function HomePage() {
             onSearch={setSearchQuery}
             placeholder="Search Amazon, TCS, NVIDIA, Zomato..."
           />
-          
+
           {searchQuery && (
             <div className="space-y-6 pt-6 animate-in fade-in slide-in-from-bottom-4">
               <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">

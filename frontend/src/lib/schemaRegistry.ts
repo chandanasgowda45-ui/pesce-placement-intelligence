@@ -204,9 +204,14 @@ export function assertValidFieldKey(fieldKey: string, context: string): asserts 
  * Validates field definitions and throws errors for invalid mappings
  */
 export function validateFieldDefinitions(
-  fields: Array<{ label: string; fieldKey: CompanyFieldKey; isLink?: boolean }>,
+  fields: Array<{ label: string; fieldKey: CompanyFieldKey; isLink?: boolean }> | null | undefined,
   context: string
 ): void {
+  if (!Array.isArray(fields)) {
+    console.warn(`[FAIL] Missing fields property for ${context}`);
+    return;
+  }
+
   const seenLabels = new Set<string>();
   const seenFieldKeys = new Set<string>();
 
