@@ -52,7 +52,7 @@ export default function CreateAccountPage() {
   const navigate = useNavigate();
   const isSubmittingRef = useRef(false);
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<CreateAccountForm>();
+  const { register, getValues, trigger, watch, formState: { errors } } = useForm<CreateAccountForm>();
 
   const password = watch("password", "");
   const confirmPassword = watch("confirmPassword", "");
@@ -60,12 +60,18 @@ export default function CreateAccountPage() {
 
   const strength = getPasswordStrength(password);
 
-  const onSubmit = async (data: CreateAccountForm) => {
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setSignupError(null);
 
     if (isSubmittingRef.current) {
       return;
     }
+
+    const isValid = await trigger();
+    if (!isValid) return;
+
+    const data = getValues();
 
     if (data.password !== data.confirmPassword) {
       toast.error("Passwords do not match");
@@ -150,7 +156,7 @@ export default function CreateAccountPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <form onSubmit={onSubmit} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="fullName">Full Name</Label>
             <Input
