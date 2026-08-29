@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import {
   LayoutDashboard,
@@ -16,8 +16,22 @@ import {
   Timer,
   MessageSquare,
   Swords,
+  User,
+  Settings,
+  LogOut,
+  ChevronDown,
 } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const navItems = [
   { to: "/", label: "Home", icon: LayoutDashboard },
@@ -29,7 +43,6 @@ const navItems = [
   { to: "/hiring-process", label: "Hiring Rounds", icon: GitBranch },
   { to: "/innovx", label: "INNOVX", icon: Sparkles },
   { to: "/analytics", label: "Analytics", icon: PieChart },
-  { to: "/candidate-analyzer", label: "Candidate Analyzer", icon: BrainCircuit },
   { to: "/rejection-probability", label: "Rejection Engine", icon: BrainCircuit },
   { to: "/placement-war-room", label: "War Room", icon: Swords },
   { to: "/placement-timeline", label: "Placement Timeline", icon: Timer },
@@ -39,6 +52,24 @@ const navItems = [
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { user, profile, signOut } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await signOut();
+    navigate("/login", { replace: true });
+  };
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map(n => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const displayName = profile?.full_name || user?.email?.split("@")[0] || "User";
 
   return (
     <div className="min-h-screen bg-background flex">
@@ -82,6 +113,42 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               </Link>
             ))}
           </nav>
+
+          {/* User section at bottom */}
+          {user && (
+            <div className="border-t p-4">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="w-full justify-start gap-3 h-auto py-2 px-3">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={profile?.profile_photo} />
+                      <AvatarFallback className="text-xs font-bold">{getInitials(displayName)}</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 text-left min-w-0">
+                      <p className="text-sm font-medium truncate">{displayName}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                    </div>
+                    <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem onClick={() => navigate("/profile")}>
+                    <User className="mr-2 h-4 w-4" />
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => navigate("/settings")}>
+                    <Settings className="mr-2 h-4 w-4" />
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-destructive">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          )}
         </div>
       </aside>
 

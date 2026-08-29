@@ -1,7 +1,7 @@
 // Test script to check Supabase connection and data
 // Run this in the browser console at http://localhost:8082
 
-import { supabase } from './src/lib/supabase.ts';
+import { supabase } from '../src/lib/supabase.ts';
 
 async function testDatabaseConnection() {
   console.log('🔍 Testing Supabase Database Connection...');

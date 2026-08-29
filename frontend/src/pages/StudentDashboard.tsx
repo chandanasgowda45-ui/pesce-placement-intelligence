@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import AppLayout from "@/components/layout/AppLayout";
 import { useAuth } from "@/hooks/useAuth";
+import { useStudentProfile } from "@/hooks/useStudentProfile";
 import { useCompanies } from "@/hooks/useCompanies";
 import { supabase } from "@/lib/supabase";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,7 +11,7 @@ import {
     Zap, Target, ShieldCheck, TrendingUp,
     BarChart3, Activity, Rocket, BrainCircuit,
     Calendar, MessageSquare, CheckCircle, AlertTriangle,
-    ChevronRight, ArrowUpRight, Clock
+    ChevronRight, ArrowUpRight, Clock, TrendingDown
 } from "lucide-react";
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid,
@@ -22,7 +23,8 @@ import {
  * Unified Placement Operating System
  */
 export default function StudentDashboard() {
-    const { user, profile } = useAuth();
+    const { user } = useAuth();
+    const { profile: studentProfile } = useStudentProfile();
     const { data: companies = [] } = useCompanies();
 
     // State management for aggregated intelligence (Real Supabase Queries)
@@ -54,14 +56,13 @@ export default function StudentDashboard() {
         const avgInterviewScore = interviews.reduce((acc, i) => acc + (i.score || 0), 0) / (interviews.length || 1);
         const readiness = latestAudit?.selection_probability || 0;
 
-        // Dynamic Mission Generation
         const missions = [];
         if (readiness < 50) missions.push({ id: 1, text: "Execute Rejection Audit for Target Company", urgency: "HIGH", impact: "Critical" });
         if (avgInterviewScore < 70) missions.push({ id: 2, text: "Practice Communication Round in Simulator", urgency: "MEDIUM", impact: "High" });
-        if (profile?.cgpa < 8.0) missions.push({ id: 3, text: "Prioritize Core Subjects Roadmap", urgency: "MEDIUM", impact: "Steady" });
+        if (studentProfile?.cgpa < 8.0) missions.push({ id: 3, text: "Prioritize Core Subjects Roadmap", urgency: "MEDIUM", impact: "Steady" });
 
         return { latestAudit, readiness, avgInterviewScore, missions };
-    }, [audits, interviews, profile]);
+    }, [audits, interviews, studentProfile]);
 
     if (loading) return <div className="h-screen flex items-center justify-center bg-slate-950 text-primary animate-pulse font-black uppercase tracking-widest">Initialising OS...</div>;
 
@@ -103,7 +104,7 @@ export default function StudentDashboard() {
                         </div>
                         <div className="bg-slate-900/50 border-2 border-slate-800 p-6 rounded-3xl backdrop-blur-md flex flex-col justify-between">
                             <p className="text-[10px] font-black uppercase text-slate-500 tracking-widest">Target Focus</p>
-                            <h2 className="text-2xl font-black text-white uppercase italic truncate">{profile?.target_companies?.[0] || "Google"}</h2>
+                                <h2 className="text-2xl font-black text-white uppercase italic truncate">{(studentProfile as any)?.target_companies?.[0] || "Google"}</h2>
                             <Target className="text-primary h-5 w-5" />
                         </div>
                     </div>

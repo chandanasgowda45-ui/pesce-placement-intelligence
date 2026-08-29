@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-  const key = process.env.VITE_GEMINI_API_KEY;
+  const key = process.env.GEMINI_API_KEY;
   if (!key) {
     console.error("VITE_GEMINI_API_KEY not found in environment variables");
     return;

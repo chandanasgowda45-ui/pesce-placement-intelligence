@@ -41,20 +41,23 @@ export class PlacementGraphEngine {
         const studentId = 'current_user';
         this.addNode({ id: studentId, type: 'Student', label: candidate.name, weight: 1, metadata: candidate });
 
-        const studentSkills = candidate.skills?.split(',').map((s: string) => s.trim()) || [];
+        const skillsRaw = typeof candidate?.skills === 'string' ? candidate.skills : '';
+        const studentSkills = skillsRaw.split(',').filter(Boolean).map((s: string) => s.trim().toLowerCase());
+
         studentSkills.forEach((skill: string) => {
-            const skillId = `skill_${skill.toLowerCase()}`;
+            const skillId = `skill_${skill}`;
             this.addNode({ id: skillId, type: 'Skill', label: skill, weight: 0.8, metadata: {} });
             this.addEdge(studentId, skillId, 'POSSESSES', 1);
         });
 
         // 2. Map Companies & Requirements
-        companies.forEach(company => {
+        (companies || []).forEach(company => {
             const compId = `comp_${company.company_id}`;
             this.addNode({ id: compId, type: 'Company', label: company.name, weight: 0.9, metadata: company });
 
             // Link requirements from skills data
-            company.skills?.forEach((s: any) => {
+            (company.skills || []).forEach((s: any) => {
+                if (typeof s !== 'string') return;
                 const skillId = `skill_${s.toLowerCase()}`;
                 this.addEdge(compId, skillId, 'REQUIRES', 0.9);
             });

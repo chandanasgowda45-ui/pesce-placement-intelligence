@@ -13,6 +13,7 @@ const DEFAULT_TIMELINE = {
 };
 
 const safeParse = (val: any) => {
+    if (!val) return null;
     if (typeof val === 'string') {
         try { return JSON.parse(val); } catch { return null; }
     }
@@ -20,11 +21,11 @@ const safeParse = (val: any) => {
 };
 
 export const normalizeCompany = (data: any) => ({
-    id: data?.id?.toString() || '0',
+    id: data?.id?.toString() || Math.random().toString(36).substr(2, 9),
     company_id: (data?.company_id || data?.id)?.toString() || '0',
     name: data?.name || 'Unknown Company',
-    logo_url: data?.logo_url || '',
-    industry: data?.industry || data?.category || 'General',
+    logo_url: data?.logo_url || '/fallback-company.png',
+    industry: data?.industry || data?.category || 'Technology',
     overview: data?.overview || data?.description || '',
     location: data?.location || 'Not Specified',
     metadata: safeParse(data?.metadata) || {}
@@ -33,24 +34,39 @@ export const normalizeCompany = (data: any) => ({
 export const normalizeHiring = (rounds: any[]) => {
     const list = Array.isArray(rounds) ? rounds : [];
     return list
-        .sort((a, b) => (a.order_index || 0) - (b.order_index || 0))
+        .filter(r => r !== null && typeof r === 'object')
+        .sort((a, b) => (Number(a?.order_index) || 0) - (Number(b?.order_index) || 0))
         .map(r => ({
-            round_name: r.round_name || 'Standard Round',
+            round_name: r.round_name || r.name || 'Standard Round',
             details: safeParse(r.details) || {},
-            duration: r.duration || 'TBD',
+            duration: r.duration || '60 mins',
             order: r.order_index || 0
         }));
 };
 
 export const normalizeInnovx = (data: any) => {
     // Safely handle nested "data" wrapper often found in Supabase payloads
-    const raw = data?.data ? data.data : data;
+    const raw = data?.data ?? data;
     const payload = safeParse(raw) || {};
     return {
         innovation_score: payload.innovation_score || 0,
         tech_stack: Array.isArray(payload.tech_stack) ? payload.tech_stack : [],
-        intelligence: payload.intelligence || payload.overview || '',
+        intelligence: payload.intelligence || payload.overview || 'No intelligence data available.',
         market_position: payload.market_position || 'N/A'
+    };
+};
+
+export const normalizeInterviewIntelligence = (data: any) => {
+    const payload = safeParse(data) || {};
+    return {
+        technical_focus: Array.isArray(payload.technical_focus) ? payload.technical_focus : [],
+        hr_patterns: Array.isArray(payload.hr_patterns) ? payload.hr_patterns : [],
+        rejection_reasons: Array.isArray(payload.rejection_reasons) ? payload.rejection_reasons : [],
+        preparation_focus: Array.isArray(payload.preparation_focus) ? payload.preparation_focus : [],
+        high_frequency_topics: Array.isArray(payload.high_frequency_topics) ? payload.high_frequency_topics : [],
+        difficulty_level: payload.difficulty_level || "Moderate",
+        recruiter_behavior: payload.recruiter_behavior || "Standard behavioral evaluation.",
+        ai_summary: payload.ai_summary || "Insufficient data for detailed AI analysis."
     };
 };
 
@@ -63,14 +79,20 @@ export const normalizeSkills = (skillsData: any[]) => {
 };
 
 export const normalizeTimeline = (company: any) => {
-    // Map database fields to timeline requirements with safe fallbacks
-    const metadata = safeParse(company?.metadata) || {};
+    // Recursive safety for company payloads
+    if (!company) return { ...DEFAULT_TIMELINE, timeline_events: [] };
+
+    const rawMeta = company?.metadata ?? company?.full_json?.metadata;
+    const metadata = safeParse(rawMeta) || {};
+
+    const currentStage = (company?.current_stage || metadata.current_stage || DEFAULT_TIMELINE.current_stage) as HiringStage;
     return {
-        current_stage: (company?.current_stage || metadata.current_stage || DEFAULT_TIMELINE.current_stage) as HiringStage,
+        current_stage: currentStage,
         stage_status: company?.stage_status || metadata.stage_status || DEFAULT_TIMELINE.stage_status,
-        start_date: company?.start_date || company?.incorporation_year || DEFAULT_TIMELINE.start_date,
+        start_date: company?.start_date || company?.created_at || DEFAULT_TIMELINE.start_date,
         expected_end_date: company?.expected_end_date || null,
-        hiring_velocity: company?.hiring_velocity || "Medium",
+        hiring_velocity: company?.hiring_velocity || metadata.hiring_velocity || "Standard",
+        urgency: company?.urgency || metadata.urgency || "Normal",
         active_roles: Array.isArray(company?.job_roles) ? company.job_roles : DEFAULT_TIMELINE.active_roles,
         timeline_events: metadata.timeline_events || []
     };

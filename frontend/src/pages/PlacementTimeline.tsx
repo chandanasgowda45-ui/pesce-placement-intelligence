@@ -56,8 +56,8 @@ export default function PlacementTimeline() {
         const { data, error } = await supabase
             .from("companies")
             .select(`
-            *,
-            placement_timelines (
+            company_id, name, category,
+            placement_timeline (
                 final_status,
                 registration_deadline,
                 aptitude_date,
@@ -66,18 +66,22 @@ export default function PlacementTimeline() {
                 package,
                 role
             )
-        `);
+        `).timeout(8000); // Guard against slow network
 
-        if (!error && data) {
-            setTimelines(data);
+        if (error) {
+            console.error("[TIMELINE_SYSCALL_ERROR]", error.message);
+            setTimelines([]);
+        } else {
+            setTimelines(data || []);
         }
 
         setLoading(false);
     };
 
     const filteredData = useMemo(() => {
-        return timelines.filter((company) => {
-            const timeline = company.placement_timelines?.[0];
+        const safeTimelines = Array.isArray(timelines) ? timelines : [];
+        return safeTimelines.filter((company) => {
+            const timeline = (company as any).placement_timeline?.[0];
 
             const currentStatus =
                 timeline?.final_status || "Upcoming";

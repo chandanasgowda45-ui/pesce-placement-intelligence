@@ -5,7 +5,7 @@ import { HumanMessage } from "@langchain/core/messages";
 dotenv.config();
 
 async function testGemini(modelName: string) {
-  const key = process.env.VITE_GEMINI_API_KEY;
+  const key = process.env.GEMINI_API_KEY;
   if (!key) {
     console.error("VITE_GEMINI_API_KEY not found in environment variables");
     return false;
